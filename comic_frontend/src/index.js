@@ -52,24 +52,51 @@ function clearDOM(page) {
 }
 
 addEventListener('DOMContentLoaded',function(){
-    //clear DOM for user's profile
-    let goToProfile = document.getElementById('profileButton');
-    goToProfile.style.margin = '20px';
-    goToProfile.style.width = '90px'; goToProfile.style.height = '45px';
-    goToProfile.style.fontWeight = 'bold';goToProfile.style.cssFloat='right';
+    //create a button to go to user's profile
+    
 
-    goToProfile.addEventListener('click',function(){
-        profile(); //load user profile
-    })
+   
     //GET request for all comics
     allComics();
 });
 
 //render all comics in get request
 function allComics() {
+  clearDOM(document.getElementById('profilePage'))
+  clearDOM(document.getElementById('comic-show-page'))
+  const indexPage = document.getElementById('indexPage');
+
+  //the header for index page
+  let header = document.createElement('header');
+      
+  header.style.backgroundColor = 'darkred';
+  header.style.height = '150px';
+  header.style.margin = '0px'
+  let headerText = document.createElement('h1');
+  headerText.innerText = 'COLLECTIVE COMICS';headerText.style.margin = '0px'
+  headerText.style.color = 'white';headerText.style.textAlign = 'center';
+  headerText.style.fontFamily = 'impact';headerText.style.fontSize = '85px'
+  header.appendChild(headerText)
+
+  //go to profile button
+  let goToProfile = document.createElement('button');
+  goToProfile.style.margin = '20px';
+  goToProfile.style.width = '90px'; goToProfile.style.height = '45px';
+  goToProfile.style.fontWeight = 'bold';goToProfile.style.cssFloat='right';
+  goToProfile.innerText = 'Go To Profile';
+
+  //add event listener to allow user to go to profile
+  goToProfile.addEventListener('click',function(){
+    profile(); //load user profile
+  })
+
+  indexPage.appendChild(header);
+  indexPage.appendChild(goToProfile);
+
   setTimeout(function(){
     const profilePage = document.getElementById('profilePage').innerText = '';
-    const allComicsDiv = document.getElementById('comicDiv');
+    const allComicsDiv = document.createElement('div');
+    const indexPage = document.getElementById('indexPage');
 
     fetch(`https://gateway.marvel.com/v1/public/comics?ts=1&apikey=${publicKey}&hash=${hash}`)
     .then((response) => response.json())
@@ -80,6 +107,7 @@ function allComics() {
 
             //comic div and elements of comic
             let newComic = document.createElement('div');
+            newComic.style.margin = '20px'
             let title = document.createElement('p');
             title.style.fontWeight = 'bold';
             title.style.fontSize = '20px';
@@ -107,6 +135,7 @@ function allComics() {
             title.innerText = data.data.results[i]['title'];
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
+            newComic.appendChild(br);
 
             if (data.data.results[i]['description'] === null) {
               desc.innerText = "No Description.";
@@ -125,6 +154,7 @@ function allComics() {
             // newComic.appendChild(addComicBtn);
 
             allComicsDiv.appendChild(newComic);
+            indexPage.appendChild(allComicsDiv);
 
             //POST for each comic (post to database)
             fetch(COMICS_URL,{
@@ -158,7 +188,9 @@ function renderComic(thisComic){
 
   //the header for the comic
   let header = document.createElement('header')
-  header.innerHTML =  "<h1 style='color:white;background-color:darkred;height:75px'>COMICS ARE COOL :D</h1>"
+  header.style.backgroundColor = 'darkred';
+  header.style.height = '85px'
+
   let comicName = document.createElement('h1')
   comicName.innerText = thisComic.title
 
@@ -175,7 +207,7 @@ function renderComic(thisComic){
   desc.style.width = '500px'
 
   let button = document.createElement('button')
-  button.innerText = 'All Comics'
+  button.innerText = 'All Comics';
   button.addEventListener('click', function (){
     returnToIndex()
   })
@@ -192,6 +224,7 @@ function getComicShowDiv(){
 
 function returnToIndex(){
   clearDOM(document.getElementById('comic-show-page'))
+
   allComics()
   //this will not work until we have allcomics() render the indexpage programmatically. see comic-show-page structure
 }
