@@ -42,7 +42,6 @@ addEventListener('DOMContentLoaded',function(){
     let goToProfile = document.getElementById('profileButton');
 
     goToProfile.addEventListener('click',function(){
-        clearDOM(indexPage); //clear indexPage DOM
         profile(); //load user profile
     })
     //GET request for all comics
@@ -134,21 +133,30 @@ function renderComic(thisComic){
   clearDOM(indexPage)
   let comicContainer = document.createElement('div')
 
+  //the header for the comic
   let header = document.createElement('header')
-  header.innerHTML =  "<h1 style='margin:30px'>COMICS ARE COOL :D</h1>"
-
+  header.innerHTML =  "<h1 style='color:white;background-color:darkred;height:75px'>COMICS ARE COOL :D</h1>"
   let comicName = document.createElement('h1')
   comicName.innerText = thisComic.title
 
+  //adding the comic's cover image
   let comicImage = document.createElement('img')
-  comicImage.src = thisComic['thumbnail']['path']
+  let path = thisComic['thumbnail']['path'];
+  comicImage.src = `${path}.jpg`
+  comicImage.style.width = '200px'
 
-  comicContainer.append(comicName, comicImage)
+  //this comic's description
+  let desc = document.createElement('p');
+  desc.innerText = thisComic['description'].split('<br>')[0];
+  desc.style.wordWrap = 'break-word';
+  desc.style.width = '500px'
 
+  //append comics to the div
+  comicContainer.append(comicName, comicImage, desc)
   getComicShowDiv().append(header, comicContainer)
-  debugger
 }
 
+//get comic show div
 function getComicShowDiv(){
   return document.getElementById('comic-show-page')
 }
