@@ -1,13 +1,26 @@
 
 //will render the user's profile page
 function profile(){
+
+    let header = document.createElement('header');
+
     let profileDiv = document.getElementById('profilePage');
 
     //fetching specific profile
-    fetch()
+    fetch("http://localhost:3000/users/1")
     .then(response => response.json())
     .then((data) => {
+        let username = document.createElement('h1');
+        username.innerText = data['username'];
 
+        let avatar = document.createElement('img');
+        avatar.src = data['image_url'];
+
+        avatar.style.width = '250px'
+        avatar.style.length = '250px'
+
+        profileDiv.appendChild(username);
+        profileDiv.appendChild(avatar);
     })
 }
 
@@ -18,12 +31,10 @@ const publicKey = `ac5ddc00ec3a557a8ca5ba50cb6f6dad`
 const hash = `6d2d52ca118da80bf099aa9f227845a0`
 const COMICS_URL = `http://localhost:3000/comics`
 
-//TO DO HERE
-/*Create a function to render the index page:
-*1. fetch all comics in a get method
-*2. for each comic, create a div to show the comic (author, title, desc.)
-*3. add comic book div to main div
-*/
+//clear DOM for whatever page
+function clearDOM(page) {
+    page.innerText = ""
+}
 
 addEventListener('DOMContentLoaded',function(){
     //clear DOM for user's profile
@@ -31,9 +42,8 @@ addEventListener('DOMContentLoaded',function(){
     let goToProfile = document.getElementById('profileButton');
 
     goToProfile.addEventListener('click',function(){
-        indexPage.innerText = "";
-        //load user profile
-        profile();
+        clearDOM(indexPage); //clear indexPage DOM
+        profile(); //load user profile
     })
     //GET request for all comics
     allComics();
@@ -41,7 +51,7 @@ addEventListener('DOMContentLoaded',function(){
 
 //render all comics in get request
 function allComics(event) {
-
+  setTimeout(function(){
     const profilePage = document.getElementById('profilePage').innerText = '';
     const allComicsDiv = document.getElementById('comicDiv');
 
@@ -77,11 +87,15 @@ function allComics(event) {
             image.style.width = '100px'
             image.style.length = '100px'
 
+            //render show page for image
+            let thisComic = data.data.results[i]
             title.innerText = data.data.results[i]['title'];
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
             desc.innerText = data.data.results[i]['description'].split('<br>')[0];
-            image.addEventListener('click', renderComic)
+            image.addEventListener('click', () => {
+              renderComic(thisComic)
+            })
 
             //adding comics to div
             newComic.appendChild(image);
@@ -96,10 +110,10 @@ function allComics(event) {
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json',
-                    Accept:'application/json'
+                    'Accept':'application/json'
                 },
                 //POST data
-                body:JSON.stringify({
+                body: JSON.stringify({
                     title: title.innerText,
                     desc: desc.innerText,
                     image_url: image.src
@@ -112,8 +126,80 @@ function allComics(event) {
 
         }
     })
+  }, 0300);
 }
 
-function renderComic(){
-  console.log("YOU KNOW GUAC IS EXTRA, RIGHT?s")
+//will render the show page for comic
+function renderComic(thisComic){
+  clearDOM(indexPage)
+  let comicContainer = document.createElement('div')
+
+  let header = document.createElement('header')
+  header.innerHTML =  "<h1 style='margin:30px'>COMICS ARE COOL :D</h1>"
+
+  let comicName = document.createElement('h1')
+  comicName.innerText = thisComic.title
+
+  let comicImage = document.createElement('img')
+  comicImage.src = thisComic['thumbnail']['path']
+
+  comicContainer.append(comicName, comicImage)
+
+  getComicShowDiv().append(header, comicContainer)
+  debugger
 }
+
+function getComicShowDiv(){
+  return document.getElementById('comic-show-page')
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

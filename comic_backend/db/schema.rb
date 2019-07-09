@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 2019_07_03_191730) do
 
   create_table "comics", force: :cascade do |t|
     t.string "title"
-    t.string "author"
     t.string "image_url"
     t.string "desc"
     t.datetime "created_at", null: false

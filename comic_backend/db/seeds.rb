@@ -6,4 +6,4 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-michael_meyers = User.create(username:'MichaelMeyers123', image_url:'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwi4lYCKwZnjAhWjTN8KHUWPC4AQjRx6BAgBEAU&url=https%3A%2F%2Fwww.sadanduseless.com%2Fderp-cats%2F&psig=AOvVaw3_Go0uIWpOFY8ojy9Ykv83&ust=1562269372527567')
+michael_meyers = User.create(username:'MichaelMeyers123', image_url:'https://cdn3.movieweb.com/i/article/0mYrxWNgzVGMTtx4GFm8QT262s0SgU/798:50/Halloween-Movie-2018-Reviews-Reaction-Tiff.jpg')
