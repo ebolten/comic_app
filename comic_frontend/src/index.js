@@ -2,7 +2,7 @@
 //will render the user's profile page
 function profile(){
     let profileDiv = document.getElementById('profilePage');
- 
+
     //fetching specific profile
     fetch()
     .then(response => response.json())
@@ -70,7 +70,7 @@ function allComics(event) {
             titleDescDiv.appendChild(desc);
 
             // titleDescDiv.style.cssFloat = 'left';
-           
+
             let path = data.data.results[i]['thumbnail']['path'];
             image.src = `${path}.jpg`
 
@@ -78,13 +78,10 @@ function allComics(event) {
             image.style.length = '100px'
 
             title.innerText = data.data.results[i]['title'];
+            newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
             desc.innerText = data.data.results[i]['description'].split('<br>')[0];
-
-            //user can subscribe to comic
-            // let addComicBtn = document.createElement('button');
-            // addComicBtn.innerText = 'Subscribe to This Comic';
-            // addComicBtn.style.color = 'red'
+            image.addEventListener('click', renderComic)
 
             //adding comics to div
             newComic.appendChild(image);
@@ -115,4 +112,8 @@ function allComics(event) {
 
         }
     })
+}
+
+function renderComic(){
+  console.log("YOU KNOW GUAC IS EXTRA, RIGHT?s")
 }
