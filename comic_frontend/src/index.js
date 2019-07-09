@@ -1,27 +1,42 @@
 
 //will render the user's profile page
 function profile(){
+  //clear DOM for loading profile page
+  const indexPage = document.getElementById('indexPage')
+  clearDOM(indexPage);
 
-    let header = document.createElement('header');
+  let profileDiv = document.getElementById('profilePage');
 
-    let profileDiv = document.getElementById('profilePage');
+  //fetching specific profile
+  fetch("http://localhost:3000/users/1")
+  .then(response => response.json())
+  .then((data) => {
 
-    //fetching specific profile
-    fetch("http://localhost:3000/users/1")
-    .then(response => response.json())
-    .then((data) => {
-        let username = document.createElement('h1');
-        username.innerText = data['username'];
+      //profile header
+      let header = document.createElement('header');
+      header.style.backgroundColor = 'darkred';
+      header.style.height = '85px';
 
-        let avatar = document.createElement('img');
-        avatar.src = data['image_url'];
+      //profile's username
+      let username = document.createElement('h1');
+      username.innerText = data['username'];
 
-        avatar.style.width = '250px'
-        avatar.style.length = '250px'
+      //profile's avatar
+      let avatar = document.createElement('img');
+      avatar.src = data['image_url'];
+      avatar.style.width = '250px';
+      avatar.style.length = '250px';
 
-        profileDiv.appendChild(username);
-        profileDiv.appendChild(avatar);
-    })
+      //profile's bio
+      let bio = document.createElement('p');
+      bio.innerText = data['bio'];
+
+      //append all nodes
+      profileDiv.appendChild(header);
+      profileDiv.appendChild(username);
+      profileDiv.appendChild(avatar);
+      profileDiv.appendChild(bio);
+  })
 }
 
 // get all info from marvel comic api and store it locally
@@ -38,8 +53,10 @@ function clearDOM(page) {
 
 addEventListener('DOMContentLoaded',function(){
     //clear DOM for user's profile
-    const indexPage = document.getElementById('indexPage')
     let goToProfile = document.getElementById('profileButton');
+    goToProfile.style.margin = '20px';
+    goToProfile.style.width = '90px'; goToProfile.style.height = '45px';
+    goToProfile.style.fontWeight = 'bold';goToProfile.style.cssFloat='right';
 
     goToProfile.addEventListener('click',function(){
         profile(); //load user profile
@@ -83,15 +100,20 @@ function allComics() {
             let path = data.data.results[i]['thumbnail']['path'];
             image.src = `${path}.jpg`
 
-            image.style.width = '100px'
-            image.style.length = '100px'
+            image.style.width = '200px'
 
             //render show page for image
             let thisComic = data.data.results[i]
             title.innerText = data.data.results[i]['title'];
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
-            desc.innerText = data.data.results[i]['description'].split('<br>')[0];
+
+            if (data.data.results[i]['description'] === null) {
+              desc.innerText = "No Description.";
+            } else {
+              desc.innerText = data.data.results[i]['description'].split('<br>')[0];
+            }
+
             image.addEventListener('click', () => {
               renderComic(thisComic)
             })
@@ -130,6 +152,7 @@ function allComics() {
 
 //will render the show page for comic
 function renderComic(thisComic){
+  const indexPage = document.getElementById('indexPage')
   clearDOM(indexPage)
   let comicContainer = document.createElement('div')
 
