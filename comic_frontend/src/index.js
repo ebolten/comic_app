@@ -150,8 +150,6 @@ function allComics() {
             //adding comics to div
             newComic.appendChild(image);
             newComic.appendChild(titleDescDiv);
-            // newComic.appendChild(author);
-            // newComic.appendChild(addComicBtn);
 
             allComicsDiv.appendChild(newComic);
             indexPage.appendChild(allComicsDiv);
@@ -172,9 +170,8 @@ function allComics() {
             )})
             .then((response) => response.json())
             .then((data) => {
-
+              //nothing goes here
             })
-
         }
     })
   }, 0300);
