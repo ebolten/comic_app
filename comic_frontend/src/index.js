@@ -49,7 +49,7 @@ addEventListener('DOMContentLoaded',function(){
 });
 
 //render all comics in get request
-function allComics(event) {
+function allComics() {
   setTimeout(function(){
     const profilePage = document.getElementById('profilePage').innerText = '';
     const allComicsDiv = document.getElementById('comicDiv');
@@ -151,8 +151,14 @@ function renderComic(thisComic){
   desc.style.wordWrap = 'break-word';
   desc.style.width = '500px'
 
+  let button = document.createElement('button')
+  button.innerText = 'All Comics'
+  button.addEventListener('click', function (){
+    returnToIndex()
+  })
+
   //append comics to the div
-  comicContainer.append(comicName, comicImage, desc)
+  comicContainer.append(comicName, comicImage, desc, button)
   getComicShowDiv().append(header, comicContainer)
 }
 
@@ -161,6 +167,11 @@ function getComicShowDiv(){
   return document.getElementById('comic-show-page')
 }
 
+function returnToIndex(){
+  clearDOM(document.getElementById('comic-show-page'))
+  allComics()
+  //this will not work until we have allcomics() render the indexpage programmatically. see comic-show-page structure
+}
 
 
 
