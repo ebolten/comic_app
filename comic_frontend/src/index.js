@@ -87,6 +87,9 @@ function allComics(event) {
             image.style.width = '100px'
             image.style.length = '100px'
 
+            //render show page for image
+            image.addEventListener('click', renderComic)
+
             title.innerText = data.data.results[i]['title'];
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
@@ -127,3 +130,8 @@ function allComics(event) {
         }
     })
 }
+
+//will render the show page for comic
+function renderComic(){
+    console.log("YOU KNOW GUAC IS EXTRA, RIGHT?s")
+  }
