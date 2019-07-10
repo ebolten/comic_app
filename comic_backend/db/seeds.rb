@@ -12,7 +12,7 @@ Site.destroy_all
 
 require 'rest-client'
 
-michael_meyers = User.create(username:'MichaelMeyers123', bio:"Halloween is my favorite holiday." ,image_url:'https://cdn3.movieweb.com/i/article/0mYrxWNgzVGMTtx4GFm8QT262s0SgU/798:50/Halloween-Movie-2018-Reviews-Reaction-Tiff.jpg')
+michael_myers = User.create(username:'MichaelMyers10191957', bio:"Halloween is my favorite holiday." ,image_url:'https://cdn3.movieweb.com/i/article/0mYrxWNgzVGMTtx4GFm8QT262s0SgU/798:50/Halloween-Movie-2018-Reviews-Reaction-Tiff.jpg')
 
 privateKey = "f5952eba34e221888fc1781c728c129bc0b2f258"
 publicKey = "ac5ddc00ec3a557a8ca5ba50cb6f6dad"
@@ -40,7 +40,7 @@ comics_array.each do |comic|
   end
   
   #attempting to create a site (user subscription)
-  mike_likes_ants = Site.find_or_create_by(user_id: michael_meyers, comic_id: 103)
+  mike_likes_ants = Site.find_or_create_by(user_id: michael_myers, comic_id: 103)
   
 
 
