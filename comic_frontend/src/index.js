@@ -144,7 +144,6 @@ function allComics() {
 
             allComicsDiv.appendChild(newComic);
             indexPage.appendChild(allComicsDiv);
-
         }
     })
   }, 0300);
