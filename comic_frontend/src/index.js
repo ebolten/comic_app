@@ -15,8 +15,8 @@ function profile(){
       //profile header
       let header = document.createElement('header');
       header.style.backgroundColor = 'darkred';
-      header.style.height = '85px';
-
+      header.innerHTML = "<h1 style='color:white;font-family:impact;text-align:center;background-color:darkred;height:75px'>Collective Comics</h1>";
+      
       //profile's username
       let username = document.createElement('h1');
       username.innerText = data['username'];
@@ -52,10 +52,6 @@ function clearDOM(page) {
 }
 
 addEventListener('DOMContentLoaded',function(){
-    //create a button to go to user's profile
-    
-
-   
     //GET request for all comics
     allComics();
 });
@@ -91,6 +87,20 @@ function allComics() {
   })
 
   indexPage.appendChild(header);
+
+  fetch("http://localhost:3000/users/1")
+  .then(response => response.json())
+  .then((data) => {
+    
+    let userAvatar = document.createElement('img');
+    userAvatar.src = data['image_url'];
+    userAvatar.alt = 'Avatar'
+
+    userAvatar.style.width = '90px'; goToProfile.style.float='right';
+    
+    indexPage.appendChild(userAvatar);
+  })
+
   indexPage.appendChild(goToProfile);
 
   setTimeout(function(){
@@ -122,8 +132,6 @@ function allComics() {
             let titleDescDiv = document.createElement('div')
             titleDescDiv.appendChild(title);
             titleDescDiv.appendChild(desc);
-
-            // titleDescDiv.style.cssFloat = 'left';
 
             let path = data.data.results[i]['thumbnail']['path'];
             image.src = `${path}.jpg`
@@ -186,7 +194,7 @@ function renderComic(thisComic){
 
   //the header for the comic
   let header = document.createElement('header')
-  header.innerHTML =  "<h1 style='color:white;background-color:darkred;height:75px'>COMICS ARE COOL :D</h1>"
+  header.innerHTML =  "<h1 style='color:white;font-family:impact;text-align:center;background-color:darkred;height:75px'>Collective Comics</h1>"
   let comicName = document.createElement('h1')
   comicName.innerText = thisComic.title
 
@@ -219,10 +227,37 @@ function renderComic(thisComic){
     returnToIndex()
   })
 
+  //creating the subscribe button
+  let subButton = document.createElement('button')
+  subButton.innerText = 'Subscribe to this comic'
+  subButton.addEventListener('click', function (){
+    subToThisComic(thisComic)
+  })
+
   //append comics to the div
-  comicContainer.append(comicName, comicImage, desc, button)
+  comicContainer.append(comicName, comicImage, desc, button, subButton)
   getComicShowDiv().append(header, comicContainer, detailsContainer)
   detailsContainer.appendChild(ul)
+}
+
+//subscribes a user to a comic, with a POST fetch
+function subToThisComic(thisComic){
+  clearDOM(document.getElementById('comic-show-page'))
+
+  subComicObj = {
+    method: "POST",
+    headers: {
+      'Content-Type':'application/json',
+      'Accept':'application/json'
+    },
+    body: JSON.stringify({
+      //need to see structure of API to figure out what I'm posting
+    })
+  }
+
+  fetch("http://localhost:3000/users/1", subComicObj)
+  .then(res => res.json())
+  .then(data => console.log(data))
 }
 
 //get comic show div
