@@ -79,7 +79,7 @@ function allComics() {
   goToProfile.style.margin = '20px';
   goToProfile.style.width = '90px'; goToProfile.style.height = '45px';
   goToProfile.style.fontWeight = 'bold';goToProfile.style.cssFloat='right';
-  goToProfile.innerText = 'Go To Profile';
+  goToProfile.innerText = 'Go to Your Profile';
 
   //add event listener to allow user to go to profile
   goToProfile.addEventListener('click',function(){
@@ -87,19 +87,6 @@ function allComics() {
   })
 
   indexPage.appendChild(header);
-
-  fetch("http://localhost:3000/users/1")
-  .then(response => response.json())
-  .then((data) => {
-    
-    let userAvatar = document.createElement('img');
-    userAvatar.src = data['image_url'];
-    userAvatar.alt = 'Avatar'
-
-    userAvatar.style.width = '90px'; goToProfile.style.float='right';
-    
-    indexPage.appendChild(userAvatar);
-  })
 
   indexPage.appendChild(goToProfile);
 
@@ -229,7 +216,7 @@ function renderComic(thisComic){
 
   //creating the subscribe button
   let subButton = document.createElement('button')
-  subButton.innerText = 'Subscribe to this comic'
+  subButton.innerText = 'Subscribe to This comic'
   subButton.addEventListener('click', function (){
     subToThisComic(thisComic)
   })
@@ -251,11 +238,12 @@ function subToThisComic(thisComic){
       'Accept':'application/json'
     },
     body: JSON.stringify({
-      //need to see structure of API to figure out what I'm posting
+      user_id: 1,
+      comic_id: thisComic.id
     })
   }
 
-  fetch("http://localhost:3000/users/1", subComicObj)
+  fetch("http://localhost:3000/sites", subComicObj)
   .then(res => res.json())
   .then(data => console.log(data))
 }

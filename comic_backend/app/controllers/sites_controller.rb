@@ -17,6 +17,10 @@ class SitesController < ApplicationController
     def create
         @site = Site.find_or_create_by(site_params)
         render json: @site
+
+        @comic = Comic.find_by(title:params['comic_title'])
+
+
     end
 
     private
