@@ -179,23 +179,33 @@ function allComics() {
 
 //will render the show page for comic
 function renderComic(thisComic){
-  const indexPage = document.getElementById('indexPage')
   clearDOM(indexPage)
   let comicContainer = document.createElement('div')
+  let detailsContainer = document.createElement('div')
+  detailsContainer.id = 'details-container'
 
   //the header for the comic
   let header = document.createElement('header')
-  header.style.backgroundColor = 'darkred';
-  header.style.height = '85px'
-
+  header.innerHTML =  "<h1 style='color:white;background-color:darkred;height:75px'>COMICS ARE COOL :D</h1>"
   let comicName = document.createElement('h1')
   comicName.innerText = thisComic.title
 
+  let ul = document.createElement('ul')
+  ul.id = 'details-ul'
   //adding the comic's cover image
   let comicImage = document.createElement('img')
   let path = thisComic['thumbnail']['path'];
   comicImage.src = `${path}.jpg`
   comicImage.style.width = '200px'
+  comicImage.addEventListener('mouseenter', function(){
+    let h3 = document.createElement('h3')
+    h3.innerText = "Creators:"
+    ul.appendChild(h3)
+    extraData(thisComic)
+  })
+  comicImage.addEventListener('mouseleave', function(){
+    ul.innerHTML = ''
+  })
 
   //this comic's description
   let desc = document.createElement('p');
@@ -204,14 +214,15 @@ function renderComic(thisComic){
   desc.style.width = '500px'
 
   let button = document.createElement('button')
-  button.innerText = 'All Comics';
+  button.innerText = 'All Comics'
   button.addEventListener('click', function (){
     returnToIndex()
   })
 
   //append comics to the div
   comicContainer.append(comicName, comicImage, desc, button)
-  getComicShowDiv().append(header, comicContainer)
+  getComicShowDiv().append(header, comicContainer, detailsContainer)
+  detailsContainer.appendChild(ul)
 }
 
 //get comic show div
@@ -219,11 +230,30 @@ function getComicShowDiv(){
   return document.getElementById('comic-show-page')
 }
 
+//return the index page
 function returnToIndex(){
   clearDOM(document.getElementById('comic-show-page'))
-
   allComics()
-  //this will not work until we have allcomics() render the indexpage programmatically. see comic-show-page structure
+}
+
+//extra data to render the creators
+function extraData(thisComic){
+  thisComic.creators.items.map((creatorsArray) => {
+    renderExtraData(creatorsArray)
+  })
+}
+
+//render data for creators to the show page
+function renderExtraData(creatorsArray){
+  let li = document.createElement('li')
+  li.innerText = creatorsArray.name
+
+  getShowPageUl().append(li)
+}
+
+//return the UI for the show page
+function getShowPageUl(){
+  return document.getElementById('details-ul')
 }
 
 
