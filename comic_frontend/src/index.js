@@ -36,6 +36,19 @@ function profile(){
       profileDiv.appendChild(username);
       profileDiv.appendChild(avatar);
       profileDiv.appendChild(bio);
+
+      //go back to all comics
+      let button = document.createElement('button')
+      button.innerText = 'All Comics'
+
+      button.addEventListener('click',allComics);
+
+      let subs = document.createElement('h2');
+      subs.innerText = 'YOUR SUBSCRIBED COMICS';
+
+      profileDiv.appendChild(document.createElement('br'))
+      profileDiv.appendChild(subs);
+      profileDiv.appendChild(button);
   })
 }
 
@@ -52,7 +65,7 @@ addEventListener('DOMContentLoaded',function(){
     allComics();
 });
 
-//render all comics in get request
+//GET all comics
 function allComics() {
   clearDOM(document.getElementById('profilePage'))
   clearDOM(document.getElementById('comic-show-page'))
@@ -60,7 +73,7 @@ function allComics() {
 
   //the header for index page
   let header = document.createElement('header');
-      
+
   header.style.backgroundColor = 'darkred';
   header.style.height = '150px';
   header.style.margin = '0px'
@@ -91,7 +104,7 @@ function allComics() {
     const allComicsDiv = document.createElement('div');
     const indexPage = document.getElementById('indexPage');
 
-    fetch(`http://localhost:3000/comics`)
+    fetch(COMICS_URL)
     .then((response) => response.json())
     .then((data) => {
 
@@ -222,7 +235,7 @@ function subToThisComic(thisComic){
 
   fetch("http://localhost:3000/sites", subComicObj)
   .then(res => res.json())
-  .then(data => console.log(data))
+  .then(data => profile())
 }
 
 //get comic show div
@@ -238,17 +251,19 @@ function returnToIndex(){
 
 //extra data to render the creators
 function extraData(thisComic){
-  thisComic.creators.items.map((creatorsArray) => {
-    renderExtraData(creatorsArray)
+  thisComic.creators.split(",").map((creatorElement) => {
+    renderExtraData(creatorElement)
   })
 }
 
 //render data for creators to the show page
-function renderExtraData(creatorsArray){
-  let li = document.createElement('li')
-  li.innerText = creatorsArray.name
+function renderExtraData(creatorElement){
+  if(creatorElement !== ""){
+    let li = document.createElement('li')
+    li.innerText = creatorElement
 
-  getShowPageUl().append(li)
+    getShowPageUl().append(li)
+  }
 }
 
 //return the UI for the show page
