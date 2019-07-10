@@ -17,31 +17,15 @@ hash = "6d2d52ca118da80bf099aa9f227845a0"
 COMICS_URL = "https://gateway.marvel.com/v1/public/comics?ts=1&apikey=#{publicKey}&hash=#{hash}"
 
 comics = RestClient.get(COMICS_URL)
-
 comics_hash = JSON.parse(comics)
 
 comics_array = comics_hash['data']['results']
 
-
-
 comics_array.each do |comic|
-    
-    # puts comic['description']
-
-
-    # desc = nil
-
-    # if data.data.results[i]['description'] == null 
-    #     desc = "No Description."
-    # else
-    #     desc = comic['description'].split('<br>')[0];
-    # end
 
     Comic.create(title:comic['title'], image_url:comic['thumbnail']['path'], desc: comic['description'])
     
 end
-
-# puts comics_array
 
 
 

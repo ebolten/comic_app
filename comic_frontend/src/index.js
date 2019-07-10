@@ -40,10 +40,6 @@ function profile(){
 }
 
 // get all info from marvel comic api and store it locally
-const ts = Date.now()
-const privateKey = `f5952eba34e221888fc1781c728c129bc0b2f258`
-const publicKey = `ac5ddc00ec3a557a8ca5ba50cb6f6dad`
-const hash = `6d2d52ca118da80bf099aa9f227845a0`
 const COMICS_URL = `http://localhost:3000/comics`
 
 //clear DOM for whatever page
@@ -95,11 +91,11 @@ function allComics() {
     const allComicsDiv = document.createElement('div');
     const indexPage = document.getElementById('indexPage');
 
-    fetch(`https://gateway.marvel.com/v1/public/comics?ts=1&apikey=${publicKey}&hash=${hash}`)
+    fetch(`http://localhost:3000/comics`)
     .then((response) => response.json())
     .then((data) => {
 
-        for (var i = 0; i < data.data.results.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             let br = document.createElement('br');
 
             //comic div and elements of comic
@@ -120,22 +116,22 @@ function allComics() {
             titleDescDiv.appendChild(title);
             titleDescDiv.appendChild(desc);
 
-            let path = data.data.results[i]['thumbnail']['path'];
+            let path = data[i]['image_url']
             image.src = `${path}.jpg`
 
             image.style.width = '200px'
 
             //render show page for image
-            let thisComic = data.data.results[i]
-            title.innerText = data.data.results[i]['title'];
+            let thisComic = data[i]
+            title.innerText = data[i]['title']
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
             newComic.appendChild(br);
 
-            if (data.data.results[i]['description'] === null) {
+            if (data[i]['desc'] === null) {
               desc.innerText = "No Description.";
             } else {
-              desc.innerText = data.data.results[i]['description'].split('<br>')[0];
+              desc.innerText = data[i]['desc'].split('<br>')[0];
             }
 
             image.addEventListener('click', () => {
@@ -149,24 +145,6 @@ function allComics() {
             allComicsDiv.appendChild(newComic);
             indexPage.appendChild(allComicsDiv);
 
-            //POST for each comic (post to database)
-            fetch(COMICS_URL,{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Accept':'application/json'
-                },
-                //POST data
-                body: JSON.stringify({
-                    title: title.innerText,
-                    desc: desc.innerText,
-                    image_url: image.src
-                }
-            )})
-            .then((response) => response.json())
-            .then((data) => {
-              //nothing goes here
-            })
         }
     })
   }, 0300);
@@ -183,13 +161,13 @@ function renderComic(thisComic){
   let header = document.createElement('header')
   header.innerHTML =  "<h1 style='color:white;font-family:impact;text-align:center;background-color:darkred;height:75px'>Collective Comics</h1>"
   let comicName = document.createElement('h1')
-  comicName.innerText = thisComic.title
+  comicName.innerText = thisComic['title']
 
   let ul = document.createElement('ul')
   ul.id = 'details-ul'
   //adding the comic's cover image
   let comicImage = document.createElement('img')
-  let path = thisComic['thumbnail']['path'];
+  let path = thisComic['image_url'];
   comicImage.src = `${path}.jpg`
   comicImage.style.width = '200px'
   comicImage.addEventListener('mouseenter', function(){
@@ -204,7 +182,7 @@ function renderComic(thisComic){
 
   //this comic's description
   let desc = document.createElement('p');
-  desc.innerText = thisComic['description'].split('<br>')[0];
+  desc.innerText = thisComic['desc'].split('<br>')[0];
   desc.style.wordWrap = 'break-word';
   desc.style.width = '500px'
 
@@ -216,7 +194,7 @@ function renderComic(thisComic){
 
   //creating the subscribe button
   let subButton = document.createElement('button')
-  subButton.innerText = 'Subscribe to This comic'
+  subButton.innerText = 'Subscribe to This Comic'
   subButton.addEventListener('click', function (){
     subToThisComic(thisComic)
   })
