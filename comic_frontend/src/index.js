@@ -47,9 +47,20 @@ function profile(){
       subs.innerText = 'YOUR SUBSCRIBED COMICS';
 
       profileDiv.appendChild(document.createElement('br'))
+
+      let subDiv = document.createElement('div')
+      subDiv.id = "user-subscriptions"
+      userSubscriptions(data,subDiv)
+
+      
       profileDiv.appendChild(subs);
+      profileDiv.appendChild(document.createElement('br'))
+      profileDiv.appendChild(subDiv)
+      profileDiv.appendChild(document.createElement('br'))
       profileDiv.appendChild(button);
+      
   })
+
 }
 
 // get all info from marvel comic api and store it locally
@@ -165,6 +176,7 @@ function allComics() {
 //will render the show page for comic
 function renderComic(thisComic){
   clearDOM(indexPage)
+  clearDOM(document.getElementById('profilePage'))
   let comicContainer = document.createElement('div')
   let detailsContainer = document.createElement('div')
   detailsContainer.id = 'details-container'
@@ -173,7 +185,7 @@ function renderComic(thisComic){
   let header = document.createElement('header')
   header.innerHTML =  "<h1 style='color:white;font-family:impact;text-align:center;background-color:darkred;height:75px'>Collective Comics</h1>"
   let comicName = document.createElement('h1')
-  comicName.innerText = thisComic['title']
+  comicName.innerText = thisComic.title
 
   let ul = document.createElement('ul')
   ul.id = 'details-ul'
@@ -269,6 +281,38 @@ function renderExtraData(creatorElement){
 //return the UI for the show page
 function getShowPageUl(){
   return document.getElementById('details-ul')
+}
+
+//append the the subscriptions
+function userSubscriptions(data,outerDiv) {
+
+  comics_array = data.comics
+
+  for (var i = 0; i < comics_array.length; i++) {
+    let divSub = document.createElement('div')
+
+    //the comic title
+    let title = document.createElement('h4')
+    title.innerText = comics_array[i].title
+
+    let image = document.createElement('img')
+    image.src = `${comics_array[i].image_url}.jpg`
+    image.style.width = '200px'
+
+    let thisComic = data.comics[i];
+
+    //when you click the image, render specific comic
+    image.addEventListener('click',function(){
+      renderComic(thisComic)
+    })
+
+    divSub.appendChild(title)
+    divSub.appendChild(image)
+
+    outerDiv.appendChild(divSub)
+    outerDiv.appendChild(document.createElement('br'))
+  }
+
 }
 
 
