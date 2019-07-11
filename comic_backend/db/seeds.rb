@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Comic.destroy_all
-User.destroy_all
-Site.destroy_all
+# Comic.destroy_all
+# User.destroy_all
+# Site.destroy_all
 
 require 'rest-client'
 
@@ -40,12 +40,5 @@ comics_array.each do |comic|
   end
   
   #attempting to create a site (user subscription)
-  mike_likes_ants = Site.find_or_create_by(user_id: michael_myers, comic_id: 103)
+  mike_likes_ants = Site.find_or_create_by(user_id: michael_myers.id, comic_id: 3)
   
-
-
-
-
-
-
-

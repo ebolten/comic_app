@@ -3,6 +3,7 @@ class SitesController < ApplicationController
     def index
         @sites = Site.all
         render json: @sites
+
     end
 
     def show
@@ -19,7 +20,6 @@ class SitesController < ApplicationController
         render json: @site
 
         @comic = Comic.find_by(title:params['comic_title'])
-
 
     end
 

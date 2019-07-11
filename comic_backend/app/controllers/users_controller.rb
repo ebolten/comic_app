@@ -5,8 +5,11 @@ class UsersController < ApplicationController
   end
 
   def show
-      user = User.find(params['id'])
-      render json: user
+    user = User.find(params['id'])
+
+    render json: user.to_json(:include => {
+        :comics => {:only => [:id,:title,:image_url,:creators,:desc]}
+    })
   end
 
   def new
@@ -23,4 +26,5 @@ class UsersController < ApplicationController
   def user_params
       params.require(:user).permit(:username, :image_url)
   end
+
 end
