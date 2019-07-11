@@ -24,8 +24,7 @@ function profile(){
       //profile's avatar
       let avatar = document.createElement('img');
       avatar.src = data['image_url'];
-      avatar.style.width = '250px';
-      avatar.style.length = '250px';
+      avatar.style.width = '350px';
 
       //profile's bio
       let bio = document.createElement('p');
@@ -58,7 +57,6 @@ function profile(){
       profileDiv.appendChild(subDiv)
       profileDiv.appendChild(document.createElement('br'))
       profileDiv.appendChild(button);
-      
   })
 
 }
@@ -106,7 +104,11 @@ function allComics() {
     profile(); //load user profile
   })
 
+  let comicText = document.createElement('h1')
+  comicText.innerText = 'Available Comics:'
+
   indexPage.appendChild(header);
+  indexPage.appendChild(comicText);
 
   indexPage.appendChild(goToProfile);
 
