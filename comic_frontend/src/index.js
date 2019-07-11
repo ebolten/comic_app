@@ -43,15 +43,17 @@ function profile(){
       button.addEventListener('click',allComics);
 
       let subs = document.createElement('h2');
-      subs.innerText = 'YOUR SUBSCRIBED COMICS';
+
+      subs.innerText = 'COMICS YOU\'VE SUBSCRIBED TO:';
 
       profileDiv.appendChild(document.createElement('br'))
 
+      //user subscriptions will be shown here
       let subDiv = document.createElement('div')
       subDiv.id = "user-subscriptions"
       userSubscriptions(data,subDiv)
 
-      
+      profileDiv.appendChild(document.createElement('hr'))
       profileDiv.appendChild(subs);
       profileDiv.appendChild(document.createElement('br'))
       profileDiv.appendChild(subDiv)
@@ -136,7 +138,8 @@ function allComics() {
 
             //setting the width of the description box
             desc.style.wordWrap = 'break-word';
-            desc.style.width = '500px'
+            desc.style.width = '600px'
+            desc.style.height = '450px'
 
             let titleDescDiv = document.createElement('div')
             titleDescDiv.appendChild(title);
@@ -145,20 +148,25 @@ function allComics() {
             let path = data[i]['image_url']
             image.src = `${path}.jpg`
 
-            image.style.width = '200px'
+            image.style.width = '280px'
+            image.style.cssFloat = 'left'
+            image.style.margin = '30px'
 
             //render show page for image
             let thisComic = data[i]
             title.innerText = data[i]['title']
             newComic.id = title.innerText;
             // author.innerText = data.data.results[i]['author'];
-            newComic.appendChild(br);
+            // newComic.appendChild(br);
 
             if (data[i]['desc'] === null) {
               desc.innerText = "No Description.";
             } else {
               desc.innerText = data[i]['desc'].split('<br>')[0];
             }
+
+            desc.style.margin = '50px'
+            desc.style.clear = 'right'
 
             image.addEventListener('click', () => {
               renderComic(thisComic)
@@ -313,35 +321,10 @@ function userSubscriptions(data,outerDiv) {
 
     outerDiv.appendChild(divSub)
     outerDiv.appendChild(document.createElement('br'))
+    outerDiv.style.margin = '30px';
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
