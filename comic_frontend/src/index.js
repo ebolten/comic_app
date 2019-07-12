@@ -20,15 +20,18 @@ function profile(){
       //profile's username
       let username = document.createElement('h1');
       username.innerText = data['username'];
+      username.style.margin = '20px';
 
       //profile's avatar
       let avatar = document.createElement('img');
       avatar.src = data['image_url'];
       avatar.style.width = '350px';
+      avatar.style.margin = '20px'
 
       //profile's bio
       let bio = document.createElement('p');
       bio.innerText = data['bio'];
+      bio.style.margin = '20px'
 
       //append all nodes
       profileDiv.appendChild(header);
@@ -42,9 +45,10 @@ function profile(){
 
       button.addEventListener('click',allComics);
 
-      let subs = document.createElement('h2');
+      let subs = document.createElement('h1');
 
       subs.innerText = 'COMICS YOU\'VE SUBSCRIBED TO:';
+      subs.style.fontFamily = 'impact';
 
       profileDiv.appendChild(document.createElement('br'))
 
@@ -302,12 +306,12 @@ function userSubscriptions(data,outerDiv) {
     let divSub = document.createElement('div')
 
     //the comic title
-    let title = document.createElement('h4')
+    let title = document.createElement('h2')
     title.innerText = comics_array[i].title
 
     let image = document.createElement('img')
     image.src = `${comics_array[i].image_url}.jpg`
-    image.style.width = '200px'
+    image.style.width = '300px'
 
     let thisComic = data.comics[i];
 
@@ -325,6 +329,53 @@ function userSubscriptions(data,outerDiv) {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
